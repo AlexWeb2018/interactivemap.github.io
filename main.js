@@ -1,31 +1,39 @@
-$(document).ready(function() {
+/* Индекс слайда по умолчанию */
+var slideIndex = 1;
+showSlides(slideIndex);
 
-  $('.next').click(function() {
-    var currentImage = $('.img.curry');
-    var currentImageIndex = $('.img.curry').index();
-    var nextImageIndex = currentImageIndex + 1;
-    var nextImage = $('.img').eq(nextImageIndex);
-    currentImage.fadeOut(1000);
-    currentImage.removeClass('curry');
-    if (nextImageIndex == ($('.img:last').index() + 1)) {
-      $('.img').eq(0).fadeIn(1000);
-      $('.img').eq(0).addClass('curry');
-    } else {
-      nextImage.fadeIn(1000);
-      nextImage.addClass('curry');
+/* Функция увеличивает индекс на 1, показывает следующй слайд*/
+function plusSlide() {
+    showSlides(slideIndex += 1);
+}
+
+/* Функция уменьшяет индекс на 1, показывает предыдущий слайд*/
+function minusSlide() {
+    showSlides(slideIndex -= 1);  
+}
+
+/* Устанавливает текущий слайд */
+function currentSlide(n) {
+    showSlides(slideIndex = n);
+}
+
+/* Основная функция слайдера */
+function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("item");
+    var dots = document.getElementsByClassName("slider-dots_item");
+    if (n > slides.length) {
+      slideIndex = 1
     }
-  });
-
-  $('.prev').click(function() {
-    var currentImage = $('.img.curry');
-    var currentImageIndex = $('.img.curry').index();
-    var prevImageIndex = currentImageIndex - 1;
-    var prevImage = $('.img').eq(prevImageIndex);
-
-    currentImage.fadeOut(1000);
-    currentImage.removeClass('curry');
-    prevImage.fadeIn(1000);
-    prevImage.addClass('curry');
-  });
-
-});
+    if (n < 1) {
+        slideIndex = slides.length
+    }
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " active";
+}
